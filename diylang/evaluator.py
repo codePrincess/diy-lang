@@ -18,7 +18,11 @@ def evaluate(ast, env):
 
     print ast
 
-    if type(ast) is list and ast[0] == "quote":
-        return ast[1]
+    if type(ast) is list:
+        if ast[0] == "quote":
+            return ast[1]
+        elif ast[0] == "atom":
+            rhs = evaluate(ast[1], env)
+            return type(rhs) is not list
 
     return ast
