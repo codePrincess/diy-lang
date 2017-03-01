@@ -16,6 +16,8 @@ in a day, after all.)
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
 
+    ops = ["+","-","/","*","mod",">","<"]
+
     if type(ast) is list:
         if ast[0] == "quote":
             return ast[1]
@@ -29,11 +31,15 @@ def evaluate(ast, env):
             param2 = evaluate(ast[2], env)
             return param1 == param2
         elif len(ast) == 3:
-            try:
-                operator = ast[0].replace("mod", "%")
-                to_eval = str(ast[1]) + " " + operator + " " + str(ast[2])
-                return eval(to_eval)
-            except:
-                pass
+            if ast[0] in ops:
+                try:
+                    operator = ast[0].replace("mod", "%")
+                    arg1 = evaluate(ast[1], env)
+                    arg2 = evaluate(ast[2], env)
+                
+                    to_eval = str(arg1) + " " + operator + " " + str(arg2)
+                    return eval(to_eval)
+                except:
+                    raise DiyLangError
 
     return ast
