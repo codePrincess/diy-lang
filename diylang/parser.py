@@ -28,7 +28,7 @@ def singleToken(source):
         return source
 
 def parse_list(source, list):
-    source = source.strip()
+    source = remove_comments(source).strip()
 
     if not source:
         return []
