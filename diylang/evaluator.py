@@ -28,5 +28,12 @@ def evaluate(ast, env):
                 return False
             param2 = evaluate(ast[2], env)
             return param1 == param2
+        elif len(ast) == 3:
+            try:
+                operator = ast[0].replace("mod", "%")
+                to_eval = str(ast[1]) + " " + operator + " " + str(ast[2])
+                return eval(to_eval)
+            except:
+                pass
 
     return ast
