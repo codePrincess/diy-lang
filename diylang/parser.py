@@ -14,7 +14,40 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    raise NotImplementedError("DIY")
+    return parse_list(source, [])
+
+def singleToken(source):
+    if source == '#t':
+        return True
+    elif source == '#f':
+        return False
+    
+    try:
+        return int(source)
+    except:
+        return source
+
+def parse_list(source, list):
+    source = source.strip()
+
+    if not source:
+        return []
+
+    if source[0] == '(':
+        sub_list = []
+        list.append(sub_list)
+
+        closing_pos = find_matching_paren(source, 0)
+        if closing_pos != len(source) -1:
+            raise DiyLangError('Expected EOF')
+
+        exps = split_exps(source[1:closing_pos])
+
+        return map(lambda x: parse_list(x, sub_list), exps)
+
+    return singleToken(source)
+
+
 
 ##
 ## Below are a few useful utility functions. These should come in handy when
