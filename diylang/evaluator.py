@@ -15,4 +15,10 @@ in a day, after all.)
 
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
-    raise NotImplementedError("DIY")
+
+    print ast
+
+    if type(ast) is list and ast[0] == "quote":
+        return ast[1]
+
+    return ast
