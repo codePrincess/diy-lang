@@ -16,13 +16,17 @@ in a day, after all.)
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
 
-    print ast
-
     if type(ast) is list:
         if ast[0] == "quote":
             return ast[1]
         elif ast[0] == "atom":
             rhs = evaluate(ast[1], env)
             return type(rhs) is not list
+        elif ast[0] == "eq":
+            param1 = evaluate(ast[1], env)
+            if type(param1) is list:
+                return False
+            param2 = evaluate(ast[2], env)
+            return param1 == param2
 
     return ast
